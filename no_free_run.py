@@ -6,7 +6,7 @@ from sports import *
 
 
 def no_free_run(userid: str, ses, dis: float = 2, start_point=gps_point(30.8669741312, 121.9183560969)):
-    data = json.dumps({"initLocation": "121.85284044053819,30.911461588541666", "type": "1", "userid": "156766"})
+    data = json.dumps({"initLocation": "121.85284044053819,30.911461588541666", "type": "1", "userid": userid})
 
     res = ses.get(host + '/api/run/runPage', params={'sign': get_md5_code(data), 'data': data.encode('ascii')})
 
@@ -14,11 +14,11 @@ def no_free_run(userid: str, ses, dis: float = 2, start_point=gps_point(30.86697
 
     x = {"buPin": "0.0", "duration": "1000",
          "endTime": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-         "startTime": (datetime.now() - timedelta(seconds=1000)).strftime("%Y-%m-%d %H:%M:%S"),
+         "startTime": (datetime.now() - timedelta(seconds=480)).strftime("%Y-%m-%d %H:%M:%S"),
          "frombp": "0", "goal": "2.00",
          "totalNum": "0",
          "trend": [], "type": "1",
-         "userid": userid, 'real': str(dis * 1000), 'runPageId': resj['runPageId'], 'speed': "3'40''",
+         "userid": userid, 'real': str(dis * 1000), 'runPageId': resj['runPageId'], 'speed': "4'00''",
          'bNode': resj['ibeacon'], 'tNode': resj['gpsinfo']}
 
     gpl = gps_point_list()

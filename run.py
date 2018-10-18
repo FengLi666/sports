@@ -17,6 +17,6 @@ try:
     no_free_run(userid, s, dis=float(dis))
 except Exception as e:
     traceback.print_exc()
-    print('login failed')
+    print('run failed')
     exit(0)
 input('run %s km successfully !\n'%dis)
