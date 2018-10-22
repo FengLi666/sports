@@ -71,11 +71,16 @@ def no_free_run(userid: str, ses, dis: float = 2, start_point=gps_point(30.87952
     speed = "%s'%s''"%(speed//60,speed - speed//60 * 60)
     startTime = (datetime.now() - timedelta(seconds=duration)).strftime("%Y-%m-%d %H:%M:%S")
 
+    # peisu = 1000 / (bupin * bufu)
+    bupin = random.uniform(120, 140)
+
+
     x['real'] = str(dis*1000)
     x['duration'] = str(duration)
     x['speed'] = speed
     x['track'] = path
     x['startTime'] = startTime
+    x['buPin'] = '%.1f'%bupin
 
     xs = json.dumps(x)
 
