@@ -1,13 +1,13 @@
-import urllib
 import hashlib
-import requests
 import time
+import urllib
 from typing import List, Dict
+
+import requests
 
 host = 'http://api.map.baidu.com'
 my_ak = 'ZbSlyWlvsXVKYuoHYkKiOmdQsG462IIy'
 my_sk = 'tvomES1GLg7w8N3rp2aoCXSoPHrQ28l0'
-
 
 def get_sn(url: str):
     queryStr = url + '&ak=%s' % my_ak + '&timestamp=%s' % time.time()
@@ -32,13 +32,24 @@ def get_route(startp: str, endp: str, region='上海'):
         'mode': 'walking',
         'region': region,
         'output': 'json',
+        'coord_type': 'gcj02',
+        'ret_coordtype': 'gcj02'
     }
     r = requests.get(host + get_sn(url_params(url, oj)))
     rj = r.json()
     route = rj['result']['routes'][0]
     steps = route['steps']
     dis = route['distance'] / 1000
-    path = [steps[i]['stepOriginLocation'] for i in range(len(steps))]
+    spliter = lambda path: [
+        {
+            'lng': p.split(',')[0],
+            'lat': p.split(',')[1]
+        }
+        for p in path.split(';')]
+    path = [spliter(steps[i]['path']) for i in range(len(steps))]
+    path = [item for lst in path for item in lst]
+    # for dic in path:
+    #     dic['lat'],dic['lng'] = bd09ll_to_gcj02(float(dic['lat']),float(dic['lng']))
     return {'distance': dis, 'route': path}
 
 
@@ -48,7 +59,6 @@ def path_plan(points: List[str]) -> Dict:
     dis = 0
     while index < len(points) - 1:
         startp, endp = points[index], points[index + 1]
-
         route = get_route(startp, endp, region='上海')
         paths += route['route']
         dis += route['distance']

@@ -1,9 +1,10 @@
 import json
-from datetime import datetime, timedelta
-from mysports.sports import *
-from mysports.original_json import *
-from path_plan.plan import path_plan, coord_trans
 import random
+from datetime import datetime, timedelta
+
+from mysports.original_json import *
+from mysports.sports import *
+from path_plan.plan import path_plan, coord_trans
 
 
 def no_free_run(userid: str, ses, dis: float = 2, start_point=gps_point(30.879521,121.892966)):
@@ -25,15 +26,16 @@ def no_free_run(userid: str, ses, dis: float = 2, start_point=gps_point(30.87952
     # gpl = gps_point_list()
     # gpl.run(start_point=start_point, stripe=0.001)
 
-    # start_point.zouzou(strip=0.0001)
-    # pass_by_ps = [coord_trans(start_point.json)]
-    pass_by_ps = []
+    # pass_by_ps = []
 
     #red, green
-    red, green = 1, 2
+    red, green = 2, 4
     x['bNode'] = resj['ibeacon'][:red]
     x['tNode'] =  resj['gpsinfo'][:green]
-
+    position_info = x['bNode'][0]['position']
+    start_point = gps_point(float(position_info['latitude']), float(position_info['longitude']))
+    start_point.zouzou(strip=0.005)
+    pass_by_ps = [coord_trans(start_point.json)]
     # reformat bnode, tnode ;  collect passby points
     for node in x['bNode']:
         pos = node['position']
