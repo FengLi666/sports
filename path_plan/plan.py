@@ -48,8 +48,6 @@ def get_route(startp: str, endp: str, region='上海'):
         for p in path.split(';')]
     path = [spliter(steps[i]['path']) for i in range(len(steps))]
     path = [item for lst in path for item in lst]
-    # for dic in path:
-    #     dic['lat'],dic['lng'] = bd09ll_to_gcj02(float(dic['lat']),float(dic['lng']))
     return {'distance': dis, 'route': path}
 
 
@@ -68,9 +66,3 @@ def path_plan(points: List[str]) -> Dict:
 
 def coord_trans(p : dict):
     return '%s,%s'%(p['latitude'], p['longitude'])
-
-
-if __name__ == '__main__':
-    print(path_plan(['30.8859890000,121.8948540000', '30.8801380000,121.8937980000', '30.8795210000,121.8929660000']))
-
-    print(get_route('30.8859890000,121.8948540000', '30.8801380000,121.8937980000'))

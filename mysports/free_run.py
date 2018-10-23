@@ -1,6 +1,6 @@
 import json
 from datetime import datetime, timedelta
-from sports import  *
+from mysports.sports import  *
 from mysports.original_json import post_data
 
 

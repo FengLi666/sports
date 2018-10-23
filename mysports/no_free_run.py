@@ -23,11 +23,6 @@ def no_free_run(userid: str, ses, dis: float = 2, start_point=gps_point(30.87952
          "userid": userid, 'real': str(dis * 1000), 'runPageId': resj['runPageId'], 'speed': "4'00''"
          }
 
-    # gpl = gps_point_list()
-    # gpl.run(start_point=start_point, stripe=0.001)
-
-    # pass_by_ps = []
-
     #red, green
     red, green = 2, 4
     x['bNode'] = resj['ibeacon'][:red]
