@@ -21,10 +21,14 @@ class gps_point:
         '''
         随便走走
         :param strip: 步长
+        :return gps_point :
         '''
         import random
-        self.latitude +=  random.uniform(-strip, strip)
-        self.longitude += random.uniform(-strip, strip)
+        import copy
+        new = copy.copy(self)
+        new.latitude +=  random.uniform(-strip, strip)
+        new.longitude += random.uniform(-strip, strip)
+        return new
 
     @property
     def json(self):

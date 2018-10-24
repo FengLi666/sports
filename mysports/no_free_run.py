@@ -7,7 +7,7 @@ from mysports.sports import *
 from path_plan.plan import path_plan, coord_trans
 
 
-def no_free_run(userid: str, ses, dis: float = 2, start_point=gps_point(30.879521,121.892966)):
+def no_free_run(userid: str, ses, dis: float = 2, extra_pn=1):
     data = json.dumps({"initLocation": "121.85284044053819,30.911461588541666", "type": "1", "userid": userid})
 
     res = ses.get(host + '/api/run/runPage', params={'sign': get_md5_code(data), 'data': data.encode('ascii')})
@@ -29,8 +29,9 @@ def no_free_run(userid: str, ses, dis: float = 2, start_point=gps_point(30.87952
     x['tNode'] =  resj['gpsinfo'][:green]
     position_info = x['bNode'][0]['position']
     start_point = gps_point(float(position_info['latitude']), float(position_info['longitude']))
-    start_point.zouzou(strip=0.005)
-    pass_by_ps = [coord_trans(start_point.json)]
+
+    pass_by_ps = [coord_trans(start_point.zouzou(strip=0.003).json) for x in range(extra_pn)]
+
     # reformat bnode, tnode ;  collect passby points
     for node in x['bNode']:
         pos = node['position']
