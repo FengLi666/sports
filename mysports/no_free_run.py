@@ -75,7 +75,7 @@ def no_free_run(userid: str, ses, extra_pn=1):
     no_free_data['buPin'] = '%.1f' % bupin
 
     xs = json.dumps(no_free_data)
-    time.sleep(duration)
+    # time.sleep(duration)
     r = ses.post(host + '/api/run/saveRunV2', data={'sign': get_md5_code(xs), 'data': xs.encode('ascii')})
     print(r.content.decode('utf-8'))
     return dis
