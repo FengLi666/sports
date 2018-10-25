@@ -8,18 +8,16 @@ def run(account, password):
     except Exception as e:
         traceback.print_exc()
         print('login failed')
-        exit(0)
 
     print('loging successfully')
 
     try:
         print('try run...')
         dis = no_free_run(userid, s)
-        input('run %s km successfully !\n' % dis)
+        print('run %s km successfully !\n' % dis)
     except Exception as e:
         traceback.print_exc()
         print('run failed')
-        exit(0)
 
 
 if __name__ == '__main__':
