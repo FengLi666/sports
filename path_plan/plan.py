@@ -2,6 +2,7 @@ import hashlib
 import time
 import urllib
 from typing import List, Dict
+from mysports.sports import gps_point, gps_point_list
 
 import requests
 
@@ -51,7 +52,10 @@ def get_route(startp: str, endp: str, region='上海'):
     return {'distance': dis, 'route': path}
 
 
-def path_plan(points: List[str]) -> Dict:
+def path_plan(points: gps_point_list) -> Dict:
+    # to list of str
+    points = points.get_str_list()
+
     index = 0
     paths = []
     dis = 0
@@ -64,5 +68,7 @@ def path_plan(points: List[str]) -> Dict:
         index += 1
     return {'distance': dis, 'path': paths}
 
-def coord_trans(p : dict):
-    return '%s,%s'%(p['latitude'], p['longitude'])
+
+def gen_human_like_route(path: List[str]):
+    # todo
+    pass

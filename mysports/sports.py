@@ -34,10 +34,16 @@ class gps_point:
     def json(self):
         return {"latitude":self.latitude, "longitude": self.longitude}
 
+    def __str__(self):
+        return '%s,%s' % (self.latitude, self.longitude)
+
 
 class gps_point_list:
-    def __init__(self):
-        self.p_list = []
+    def __init__(self, points=None):
+        if points:
+            self.p_list = points
+        else:
+            self.p_list = []
 
     def append(self, point):
         self.p_list.append(point)
@@ -49,6 +55,9 @@ class gps_point_list:
             new_pos = gps_point(curr_pos.latitude + stripe, curr_pos.longitude + stripe)
             self.append(new_pos)
             curr_pos = new_pos
+
+    def get_str_list(self):
+        return [str(x) for x in self.p_list]
 
     @property
     def total_distance(self):
@@ -62,3 +71,7 @@ class gps_point_list:
 
     def get_track(self):
         return [x.json for x in self.p_list]
+
+    def get_random_supplement(self):
+        # todo
+        pass
