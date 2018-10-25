@@ -5,4 +5,8 @@
 
 ![image](https://user-images.githubusercontent.com/19814411/47288132-51d85200-d627-11e8-8629-58500607e29b.png)
 
+## 使用方法
+
+下载 /dist/run.exe， 运行，输入账号密码即可完成一次锻炼
+
 感谢 @RyuBAI 
