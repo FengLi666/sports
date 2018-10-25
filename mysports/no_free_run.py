@@ -1,8 +1,9 @@
 import json
 import random
+import time
 from datetime import datetime, timedelta
 
-from mysports.original_json import headers, no_free_data, host
+from mysports.original_json import no_free_data, host
 from mysports.sports import *
 from path_plan.plan import path_plan
 
@@ -74,7 +75,7 @@ def no_free_run(userid: str, ses, extra_pn=1):
     no_free_data['buPin'] = '%.1f' % bupin
 
     xs = json.dumps(no_free_data)
-
+    time.sleep(duration)
     r = ses.post(host + '/api/run/saveRunV2', data={'sign': get_md5_code(xs), 'data': xs.encode('ascii')})
     print(r.content.decode('utf-8'))
     return dis
