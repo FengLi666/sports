@@ -8,7 +8,7 @@ from mysports.sports import *
 from path_plan.plan import path_plan
 
 
-def no_free_run(userid: str, ses, extra_pn=1):
+def no_free_run(userid: str, ses, extra_pn=1, rg=(2, 4)):
     data = json.dumps({"initLocation": "121.85284044053819,30.911461588541666", "type": "1", "userid": userid})
 
     res = ses.get(host + '/api/run/runPage', params={'sign': get_md5_code(data), 'data': data.encode('ascii')})
@@ -16,7 +16,7 @@ def no_free_run(userid: str, ses, extra_pn=1):
     resj = res.json()['data']
 
     #red, green
-    red, green = 2, 2
+    red, green = rg
     no_free_data['bNode'] = resj['ibeacon'][:red]
     no_free_data['tNode'] = resj['gpsinfo'][:green]
     position_info = no_free_data['bNode'][0]['position']
@@ -75,7 +75,7 @@ def no_free_run(userid: str, ses, extra_pn=1):
     no_free_data['buPin'] = '%.1f' % bupin
 
     xs = json.dumps(no_free_data)
-    # time.sleep(duration)
+    time.sleep(duration)
     r = ses.post(host + '/api/run/saveRunV2', data={'sign': get_md5_code(xs), 'data': xs.encode('ascii')})
     print(r.content.decode('utf-8'))
     return dis

@@ -4,8 +4,7 @@ from wxpy import *
 from traceback import print_exc
 import builtins
 
-
-bot = Bot()
+bot = Bot(cache_path=True, console_qr=2)
 builtins.print = bot.file_helper.send
 
 from mysports.run import run
