@@ -1,9 +1,9 @@
 import hashlib
 import time
 import urllib
+import random
 from typing import List, Dict
-from mysports.sports import gps_point, gps_point_list
-
+from mysports.sports import gps_point, gps_point_list,haversine
 import requests
 
 host = 'http://api.map.baidu.com'
@@ -63,12 +63,41 @@ def path_plan(points: gps_point_list) -> Dict:
         startp, endp = points[index], points[index + 1]
         route = get_route(startp, endp, region='上海')
         paths += route['route']
+        paths = gen_human_like_route(paths)
         dis += route['distance']
 
         index += 1
     return {'distance': dis, 'path': paths}
 
+# strip: the random limit
+def gen_human_like_route(path: List[dict],strip = 0.0001):
+    extra_points = []
+    for i in range(len(path)-1):
+        points = []
+        start_lng = float(path[i]['lng'])
+        start_lat = float(path[i]['lat'])
+        end_lng = float(path[i+1]['lng'])
+        end_lat = float(path[i+1]['lat'])
+        distance = haversine(path[i],path[i+1])
+        if distance['km'] > 0.02:
+            extra_points_num = int(distance['km'] / 0.01)
+            offset_lng = (end_lng - start_lng) / extra_points_num
+            offset_lat = (end_lat - start_lat) / extra_points_num
+            for j in range(extra_points_num):
+                pos_lng = start_lng + offset_lng * j + random.uniform(0,strip)
+                pos_lat = start_lat  + offset_lat *j + random.uniform(0,strip)
+                points.append(
+                    {
+                        'lng':str(pos_lng),
+                        'lat':str(pos_lat)
+                    }
+                )
+        extra_points.append(points)
+    result_path = []
+    for i in range(len(path) - 1):
+        result_path.append(path[i])
+        result_path.extend(extra_points[i])
+        result_path.append(path[i+1])
+    return result_path
 
-def gen_human_like_route(path: List[str]):
-    # todo
-    pass
+
