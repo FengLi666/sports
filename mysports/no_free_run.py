@@ -56,14 +56,15 @@ def no_free_run(userid: str, ses, extra_pn=1, rg=(2, 4)):
     # insert path, dis, duration, speed into x
     speed = random.randint(300, 500) # seconds per km
     duration = dis * speed  #seconds
+
     # to 'minutes'seconds'microseconds'
     speed = "%s'%s''"%(speed//60,speed - speed//60 * 60)
-    startTime = (datetime.now() - timedelta(seconds=duration)).strftime("%Y-%m-%d %H:%M:%S")
+    startTime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     # peisu = 1000 / (bupin * bufu)
     bupin = random.uniform(120, 140)
 
-    no_free_data['endTime'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    no_free_data['endTime'] = (datetime.now() + timedelta(seconds=duration)).strftime("%Y-%m-%d %H:%M:%S")
     no_free_data['userid'] = userid
     no_free_data['runPageId'] = resj['runPageId']
 
@@ -74,8 +75,11 @@ def no_free_run(userid: str, ses, extra_pn=1, rg=(2, 4)):
     no_free_data['startTime'] = startTime
     no_free_data['buPin'] = '%.1f' % bupin
 
-    xs = json.dumps(no_free_data)
+    print('plan run %s km til %s' % (dis, no_free_data['endTime']))
     time.sleep(duration)
+
+    xs = json.dumps(no_free_data)
+
     r = ses.post(host + '/api/run/saveRunV2', data={'sign': get_md5_code(xs), 'data': xs.encode('ascii')})
     print(r.content.decode('utf-8'))
     return dis

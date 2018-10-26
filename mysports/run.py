@@ -1,7 +1,7 @@
 from mysports.login import *
 
 
-def run(account, password):
+def run(account, password, rg=(2, 4)):
     try:
         print('try login...')
         userid, s = login(account, password)
@@ -13,7 +13,7 @@ def run(account, password):
 
     try:
         print('try run...')
-        dis = no_free_run(userid, s)
+        dis = no_free_run(userid, s, rg=rg)
         print('run %s km successfully !\n' % dis)
     except Exception as e:
         traceback.print_exc()
