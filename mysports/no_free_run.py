@@ -10,12 +10,10 @@ from path_plan.plan import path_plan
 
 def no_free_run(userid: str, ses, extra_pn=1, rg=(2, 4)):
     data = json.dumps({"initLocation": "121.85284044053819,30.911461588541666", "type": "1", "userid": userid})
-
     res = ses.get(host + '/api/run/runPage', params={'sign': get_md5_code(data), 'data': data.encode('ascii')})
-
     resj = res.json()['data']
 
-    #red, green
+    # red, green
     red, green = rg
     no_free_data['bNode'] = resj['ibeacon'][:red]
     no_free_data['tNode'] = resj['gpsinfo'][:green]
@@ -42,37 +40,37 @@ def no_free_run(userid: str, ses, extra_pn=1, rg=(2, 4)):
 
         pass_by_ps.append(gps_point(pos['latitude'], pos['longitude']))
 
-    #path plan
+    # path plan
     plan = path_plan(pass_by_ps)
     dis = plan['distance']
     path = plan['path']
 
-    #reformat path
+    # reformat path
     tmp = []
     for p in path:
-        tmp.append({'latitude':p['lat'], 'longitude':p['lng']})
+        tmp.append({'latitude': p['lat'], 'longitude': p['lng']})
     path = tmp
 
-    # insert path, dis, duration, speed into x
-    speed = random.randint(300, 500) # seconds per km
-    duration = dis * speed  #seconds
+    # gen speed, duration, speed...
+    speed = random.randint(300, 500)  # seconds per km
+    duration = dis * speed  # seconds
 
     # to 'minutes'seconds'microseconds'
-    speed = "%s'%s''"%(speed//60,speed - speed//60 * 60)
+    speed = "%s'%s''" % (speed // 60, speed - speed // 60 * 60)
     startTime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     # peisu = 1000 / (bupin * bufu)
     bupin = random.uniform(120, 140)
 
+    # construct post data
     no_free_data['endTime'] = (datetime.now() + timedelta(seconds=duration)).strftime("%Y-%m-%d %H:%M:%S")
+    no_free_data['startTime'] = startTime
     no_free_data['userid'] = userid
     no_free_data['runPageId'] = resj['runPageId']
-
     no_free_data['real'] = str(dis * 1000)
     no_free_data['duration'] = str(duration)
     no_free_data['speed'] = speed
     no_free_data['track'] = path
-    no_free_data['startTime'] = startTime
     no_free_data['buPin'] = '%.1f' % bupin
 
     print('plan run %s km til %s' % (dis, no_free_data['endTime']))

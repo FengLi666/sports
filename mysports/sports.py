@@ -1,6 +1,7 @@
 import hashlib
 
-from math import pi,sqrt,sin,cos,atan2
+from math import pi, sqrt, sin, cos, atan2
+
 
 def haversine(pos1, pos2):
     lat1 = float(pos1['lat'])
@@ -18,7 +19,8 @@ def haversine(pos1, pos2):
     km = 6367 * c
     mi = 3956 * c
 
-    return {"km":km, "miles":mi}
+    return {"km": km, "miles": mi}
+
 
 def get_md5_code(s):
     hl = hashlib.md5()
@@ -36,7 +38,7 @@ class gps_point:
         # return geodesic((self.latitude, self.longitude), (ap.latitude, ap.longitude)).kilometers
         return 2
 
-    def zouzou(self,strip=0.001):
+    def zouzou(self, strip=0.001):
         '''
         随便走走
         :param strip: 步长
@@ -45,13 +47,13 @@ class gps_point:
         import random
         import copy
         new = copy.copy(self)
-        new.latitude +=  random.uniform(-strip, strip)
+        new.latitude += random.uniform(-strip, strip)
         new.longitude += random.uniform(-strip, strip)
         return new
 
     @property
     def json(self):
-        return {"latitude":self.latitude, "longitude": self.longitude}
+        return {"latitude": self.latitude, "longitude": self.longitude}
 
     def __str__(self):
         return '%s,%s' % (self.latitude, self.longitude)

@@ -1,14 +1,17 @@
 import hashlib
+import random
 import time
 import urllib
-import random
 from typing import List, Dict
-from mysports.sports import gps_point, gps_point_list,haversine
+
 import requests
+
+from mysports.sports import gps_point_list, haversine
 
 host = 'http://api.map.baidu.com'
 my_ak = 'ZbSlyWlvsXVKYuoHYkKiOmdQsG462IIy'
 my_sk = 'tvomES1GLg7w8N3rp2aoCXSoPHrQ28l0'
+
 
 def get_sn(url: str):
     queryStr = url + '&ak=%s' % my_ak + '&timestamp=%s' % time.time()
@@ -69,27 +72,33 @@ def path_plan(points: gps_point_list) -> Dict:
         index += 1
     return {'distance': dis, 'path': paths}
 
-# strip: the random limit
-def gen_human_like_route(path: List[dict],strip = 0.0001):
+
+def gen_human_like_route(path: List[dict], strip=0.0001) -> list[dict]:
+    '''
+
+    :param path: ['lat': str, 'lng': str]
+    :param strip: the random limit
+    :return: ['lat': str, 'lng': str]
+    '''
     extra_points = []
-    for i in range(len(path)-1):
+    for i in range(len(path) - 1):
         points = []
         start_lng = float(path[i]['lng'])
         start_lat = float(path[i]['lat'])
-        end_lng = float(path[i+1]['lng'])
-        end_lat = float(path[i+1]['lat'])
-        distance = haversine(path[i],path[i+1])
+        end_lng = float(path[i + 1]['lng'])
+        end_lat = float(path[i + 1]['lat'])
+        distance = haversine(path[i], path[i + 1])
         if distance['km'] > 0.02:
             extra_points_num = int(distance['km'] / 0.01)
             offset_lng = (end_lng - start_lng) / extra_points_num
             offset_lat = (end_lat - start_lat) / extra_points_num
             for j in range(extra_points_num):
-                pos_lng = start_lng + offset_lng * j + random.uniform(0,strip)
-                pos_lat = start_lat  + offset_lat *j + random.uniform(0,strip)
+                pos_lng = start_lng + offset_lng * j + random.uniform(0, strip)
+                pos_lat = start_lat + offset_lat * j + random.uniform(0, strip)
                 points.append(
                     {
-                        'lng':str(pos_lng),
-                        'lat':str(pos_lat)
+                        'lng': str(pos_lng),
+                        'lat': str(pos_lat)
                     }
                 )
         extra_points.append(points)
@@ -97,7 +106,5 @@ def gen_human_like_route(path: List[dict],strip = 0.0001):
     for i in range(len(path) - 1):
         result_path.append(path[i])
         result_path.extend(extra_points[i])
-        result_path.append(path[i+1])
+        result_path.append(path[i + 1])
     return result_path
-
-
