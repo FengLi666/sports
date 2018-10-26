@@ -24,3 +24,4 @@ if __name__ == '__main__':
     mobile = input('input your account\n')
     password = input('input your password\n')
     run(mobile, password)
+    input('press any key to quit...')
