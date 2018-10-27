@@ -10,7 +10,14 @@
 ## 使用方法
 
 1. 下载 /dist/run.exe， 运行，输入账号密码即可完成一次锻炼
-2. 运行微信机器人 wechat_bot/wechat_bot.py ，~~具体见代码~~
+2. 运行微信机器人
+```
+git clone https://github.com/FengLi666/sports.git
+cd sports
+pip3 install -r requirement.txt
+python3 wechat_bot/wechat_bot.py
+```
+~~具体见代码~~
 
 ---
 
