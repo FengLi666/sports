@@ -1,3 +1,4 @@
+import gevent
 from gevent import monkey
 
 monkey.patch_all()
@@ -13,7 +14,7 @@ logger = Logger('sports')
 def wxprint(my_bot):
     def func(x):
         logger.warning(x)
-        my_bot.file_helper.send(x)
+        gevent.spawn(my_bot.file_helper.send, x)
 
     return func
 
