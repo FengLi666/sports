@@ -15,6 +15,7 @@
 git clone https://github.com/FengLi666/sports.git
 cd sports
 pip3 install -r requirement.txt
+export PYTHONPATH='.'
 python3 ./wechat_bot/wechat_bot.py
 ```
 ~~具体见代码~~
