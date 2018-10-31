@@ -66,14 +66,14 @@ def path_plan(points: gps_point_list) -> Dict:
         startp, endp = points[index], points[index + 1]
         route = get_route(startp, endp, region='上海')
         paths += route['route']
-        paths = gen_human_like_route(paths)
         dis += route['distance']
-
         index += 1
+
+    paths = gen_human_like_route(paths)
     return {'distance': dis, 'path': paths}
 
 
-def gen_human_like_route(path: List[dict], strip=0.0001) -> list[dict]:
+def gen_human_like_route(path: List[dict], strip=0.0001) -> List[dict]:
     '''
 
     :param path: ['lat': str, 'lng': str]
