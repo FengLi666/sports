@@ -18,7 +18,7 @@ headers = {
     'Accept-Language':'zh-CN,zh;q=0.8',
 'User-Agent':'Mozilla/5.0 (Linux; U; Android 4.4.2; zh-cn; zhangquandan Build/NMF26X) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30',
 'versionCode':'308',
-'versionName':'2.2.5',
+    'versionName': '2.2.8',
 'xxversionxx':'20180601',
 'uuid': '',
 'utoken': '',

@@ -15,7 +15,7 @@ def login(mobile, psd):
 
     # get cookie
     data = r'{}'
-    s.get(host + '/api/configuration/apiConfig', params={'sign': get_md5_code(data), 'data': data})
+    s.get(host + '/api/configuration/ n', params={'sign': get_md5_code(data), 'data': data})
 
     login_data = json.dumps(
         {"info": headers['uuid'], "mobile": str(mobile), "password": str(psd), "type": "HUAWEIMLA-AL10"})
@@ -23,8 +23,12 @@ def login(mobile, psd):
     login_res = s.get(host + '/api/reg/login', params={'sign': get_md5_code(login_data), 'data': login_data})
     login_rd = login_res.json()
 
-    userid = login_rd['data']['userid']
-    utoken = login_rd['data']['utoken']
+    try:
+        userid = login_rd['data']['userid']
+        utoken = login_rd['data']['utoken']
+    except:
+        print(login_rd)
+        raise Exception
 
     s.headers.update({'utoken': utoken})
     return userid, s
