@@ -42,7 +42,7 @@ def no_free_run(userid: str, ses, extra_pn=1, rg=(2, 4),debug=False):
 
     # path plan
     plan = path_plan(pass_by_ps)
-    dis = plan['distance']
+    dis = max(plan['distance'], 2.0)
     path = plan['path']
 
     # reformat path
