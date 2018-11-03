@@ -8,7 +8,7 @@ from mysports.sports import *
 from path_plan.plan import path_plan
 
 
-def no_free_run(userid: str, ses, extra_pn=1, rg=(2, 4)):
+def no_free_run(userid: str, ses, extra_pn=1, rg=(2, 4),debug=False):
     data = json.dumps({"initLocation": "121.85284044053819,30.911461588541666", "type": "1", "userid": userid})
     res = ses.get(host + '/api/run/runPage', params={'sign': get_md5_code(data), 'data': data.encode('ascii')})
     resj = res.json()['data']
@@ -42,7 +42,7 @@ def no_free_run(userid: str, ses, extra_pn=1, rg=(2, 4)):
 
     # path plan
     plan = path_plan(pass_by_ps)
-    dis = plan['distance']
+    dis = max(plan['distance'], 2.0)
     path = plan['path']
 
     # reformat path
@@ -72,10 +72,9 @@ def no_free_run(userid: str, ses, extra_pn=1, rg=(2, 4)):
     no_free_data['speed'] = speed
     no_free_data['track'] = path
     no_free_data['buPin'] = '%.1f' % bupin
-
-    print('plan run %s km til %s' % (dis, no_free_data['endTime']))
-    time.sleep(duration)
-
+    if debug:
+        print('plan run %s km til %s' % (dis, no_free_data['endTime']))
+        time.sleep(duration)
     xs = json.dumps(no_free_data)
 
     r = ses.post(host + '/api/run/saveRunV2', data={'sign': get_md5_code(xs), 'data': xs.encode('ascii')})

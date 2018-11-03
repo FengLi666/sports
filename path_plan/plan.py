@@ -73,11 +73,10 @@ def path_plan(points: gps_point_list) -> Dict:
     return {'distance': dis, 'path': paths}
 
 
-def gen_human_like_route(path: List[dict], strip=0.0001) -> List[dict]:
+def gen_human_like_route(path: List[dict]) -> List[dict]:
     '''
 
     :param path: ['lat': str, 'lng': str]
-    :param strip: the random limit
     :return: ['lat': str, 'lng': str]
     '''
     extra_points = []
@@ -93,8 +92,8 @@ def gen_human_like_route(path: List[dict], strip=0.0001) -> List[dict]:
             offset_lng = (end_lng - start_lng) / extra_points_num
             offset_lat = (end_lat - start_lat) / extra_points_num
             for j in range(extra_points_num):
-                pos_lng = start_lng + offset_lng * j + random.uniform(0, strip)
-                pos_lat = start_lat + offset_lat * j + random.uniform(0, strip)
+                pos_lng = start_lng + offset_lng * j + random.uniform(-offset_lng,offset_lng)
+                pos_lat = start_lat + offset_lat * j + random.uniform(-offset_lat,offset_lat)
                 points.append(
                     {
                         'lng': str(pos_lng),

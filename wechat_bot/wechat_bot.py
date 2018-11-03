@@ -33,7 +33,7 @@ def bot_start_run(msg):
             print("开始跑步...")
             userid = msg.text.split(' ')[1]
             passwd = msg.text.split(' ')[2]
-            run(userid, passwd, rg=(1, 2))
+            run(userid, passwd, rg=(2, 2))
         else:
             print('滚一边玩去')
     except Exception as e:
