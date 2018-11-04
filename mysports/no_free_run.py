@@ -72,7 +72,7 @@ def no_free_run(userid: str, ses, extra_pn=1, rg=(2, 4),debug=False):
     no_free_data['speed'] = speed
     no_free_data['track'] = path
     no_free_data['buPin'] = '%.1f' % bupin
-    if debug:
+    if not debug:
         print('plan run %s km til %s' % (dis, no_free_data['endTime']))
         time.sleep(duration)
     xs = json.dumps(no_free_data)

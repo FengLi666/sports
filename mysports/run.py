@@ -1,7 +1,7 @@
 from mysports.login import *
 from mysports.no_free_run import no_free_run
 import traceback
-import sys
+import argparse
 
 def run(account, password, rg=(2, 4), debug=False):
     try:
@@ -23,10 +23,10 @@ def run(account, password, rg=(2, 4), debug=False):
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='take a no free run')
+    parser.add_argument('--debug',type=bool,default=False,help='--debug True will post the run immediately')
+    args = parser.parse_args()
     mobile = input('input your account\n')
     password = input('input your password\n')
-    debug = False
-    if len(sys.argv) == 3 and sys.argv[2] == 'debug':
-        debug = True
-    run(mobile, password, debug=debug)
+    run(mobile, password, debug=args.debug)
     input('press any key to quit...')
