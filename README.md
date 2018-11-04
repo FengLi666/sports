@@ -18,6 +18,21 @@ pip3 install -r requirement.txt
 export PYTHONPATH='.'
 python3 ./wechat_bot/wechat_bot.py
 ```
+3. linux/macos使用方法
+```
+git clone https://github.com/FengLi666/sports.git
+cd sports
+pip3 install -r requirement.txt
+export PYTHONPATH='.'
+python3 ./mysports/run.py
+```
+输入账号密码
+默认情况下跑步数据在一段时间后才会提交给app服务器(即你要保持这个进程一直运行）
+如果想立即提交跑步数据
+可以使用如下命令
+```
+python3 ./mysports/run.py --debug True
+```
 ~~具体见代码~~
 
 ---
