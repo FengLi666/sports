@@ -1,6 +1,8 @@
 # 跑步是不可能跑步的
 高校体育app自动跑步
 
+仅供交流学习使用，not for evil use :)
+
 使用了百度地图api自动寻路（~~虽然可能很绕~~ 已经挺像真人跑的喽 :) ）
 
 ![image](https://user-images.githubusercontent.com/19814411/47697310-6929c780-dc45-11e8-92eb-88f9f7b6368d.png)
