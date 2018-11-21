@@ -4,10 +4,22 @@ from math import pi, sqrt, sin, cos, atan2
 
 
 def haversine(pos1, pos2):
-    lat1 = float(pos1['lat'])
-    long1 = float(pos1['lng'])
-    lat2 = float(pos2['lat'])
-    long2 = float(pos2['lng'])
+    try:
+        lat1 = float(pos1['lat'])
+    except:
+        lat1 = float(pos1['latitude'])
+    try:
+        long1 = float(pos1['lng'])
+    except:
+        long1 = float(pos1['longitude'])
+    try:
+        lat2 = float(pos2['lat'])
+    except:
+        lat2 = float(pos2['latitude'])
+    try:
+        long2 = float(pos2['lng'])
+    except:
+        long2 = float(pos2['longitude'])
 
     degree_to_rad = float(pi / 180.0)
 

@@ -27,6 +27,21 @@ def url_params(url: str, params: Dict):
         l.append('%s=%s' % (k, v))
     return url + '&'.join(l)
 
+def get_school_location(school: str):
+    url = '/geocoder/v2/?'
+    school = school.replace('(','')
+    oj = {
+        "address": school,
+        "output": "json"
+    }
+    r = requests.get(host + get_sn(url_params(url,oj)))
+    rj = r.json()
+    try:
+        location = rj['result']['location']
+    except:
+        print("获取学校地址失败")
+        exit(0)
+    return location
 
 def get_route(startp: str, endp: str, region='上海'):
     url = '/direction/v1?'

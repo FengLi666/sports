@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 
 from mysports.original_json import no_free_data, host
 from mysports.sports import *
-from path_plan.plan import path_plan
+from path_plan.plan import path_plan, get_school_location
 
 
 def no_free_run(userid: str, ses, extra_pn=1,school = "",rg=(2, 4),debug=False):
@@ -15,12 +15,15 @@ def no_free_run(userid: str, ses, extra_pn=1,school = "",rg=(2, 4),debug=False):
 
     # red, green
     red, green = rg
-    if school == '东华大学（松江校区）':
-        no_free_data['bNode'] = [item for item in resj['ibeacon'] if float(item['position']['longitude']) < 121.3]
-        no_free_data['tNode'] = [item for item in resj['gpsinfo'] if float(item['longitude']) < 121.3]
-    else:
-        no_free_data['bNode'] = resj['ibeacon'][:red]
-        no_free_data['tNode'] = resj['gpsinfo'][:green]
+
+    school_location = get_school_location(school)
+
+    possible_bNode = [item for item in resj['ibeacon'] if haversine(item['position'],school_location)['km'] < 10]
+    possible_tNode = [item for item in resj['gpsinfo'] if haversine(item,school_location)['km'] < 10]
+
+    no_free_data['bNode'] = possible_bNode[:red]
+    no_free_data['tNode'] = possible_tNode[:green]
+
     try:
         position_info = no_free_data['bNode'][0]['position']
     except:
