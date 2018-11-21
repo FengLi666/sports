@@ -26,9 +26,10 @@ def login(mobile, psd):
     try:
         userid = login_rd['data']['userid']
         utoken = login_rd['data']['utoken']
+        school = login_rd['data']['school']
     except:
         print(login_rd)
         raise Exception
 
     s.headers.update({'utoken': utoken})
-    return userid, s
+    return userid, s, school

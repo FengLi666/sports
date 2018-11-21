@@ -6,7 +6,7 @@ import argparse
 def run(account, password, rg=(2, 4), debug=False):
     try:
         print('try login...')
-        userid, s = login(account, password)
+        userid, s, school = login(account, password)
     except Exception as e:
         traceback.print_exc()
         print('login failed')
@@ -15,7 +15,7 @@ def run(account, password, rg=(2, 4), debug=False):
 
     try:
         print('try run...')
-        dis = no_free_run(userid, s, rg=rg, debug=debug)
+        dis = no_free_run(userid, s, school = school,rg=rg, debug=debug)
         print('run %s km successfully !\n' % dis)
     except Exception as e:
         traceback.print_exc()

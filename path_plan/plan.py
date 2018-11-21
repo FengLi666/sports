@@ -9,7 +9,7 @@ import requests
 from mysports.sports import gps_point_list, haversine
 
 host = 'http://api.map.baidu.com'
-my_ak = 'ZbSlyWlvsXVKYuoHYkKiOmdQsG462IIy'
+my_ak = 'zqZrWc3iKoMsMRmUjrQyzneeWhIPxGvV'
 my_sk = 'tvomES1GLg7w8N3rp2aoCXSoPHrQ28l0'
 
 
@@ -41,7 +41,11 @@ def get_route(startp: str, endp: str, region='上海'):
     }
     r = requests.get(host + get_sn(url_params(url, oj)))
     rj = r.json()
-    route = rj['result']['routes'][0]
+    try:
+        route = rj['result']['routes'][0]
+    except:
+        print("使用人数太多，百度地图api配额超限！")
+        exit(0)
     steps = route['steps']
     dis = route['distance'] / 1000
     spliter = lambda path: [

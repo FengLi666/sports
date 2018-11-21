@@ -29,7 +29,7 @@ if __name__ == '__main__':
     to_userid = '175691'
     try:
         print('try login...')
-        _, s = login(account, password)
+        _, s,_ = login(account, password)
     except Exception as e:
         traceback.print_exc()
         print('login failed')

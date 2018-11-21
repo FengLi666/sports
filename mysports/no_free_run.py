@@ -8,16 +8,23 @@ from mysports.sports import *
 from path_plan.plan import path_plan
 
 
-def no_free_run(userid: str, ses, extra_pn=1, rg=(2, 4),debug=False):
+def no_free_run(userid: str, ses, extra_pn=1,school = "",rg=(2, 4),debug=False):
     data = json.dumps({"initLocation": "121.85284044053819,30.911461588541666", "type": "1", "userid": userid})
     res = ses.get(host + '/api/run/runPage', params={'sign': get_md5_code(data), 'data': data.encode('ascii')})
     resj = res.json()['data']
 
     # red, green
     red, green = rg
-    no_free_data['bNode'] = resj['ibeacon'][:red]
-    no_free_data['tNode'] = resj['gpsinfo'][:green]
-    position_info = no_free_data['bNode'][0]['position']
+    if school == '东华大学（松江校区）':
+        no_free_data['bNode'] = [item for item in resj['ibeacon'] if float(item['position']['longitude']) < 121.3]
+        no_free_data['tNode'] = [item for item in resj['gpsinfo'] if float(item['longitude']) < 121.3]
+    else:
+        no_free_data['bNode'] = resj['ibeacon'][:red]
+        no_free_data['tNode'] = resj['gpsinfo'][:green]
+    try:
+        position_info = no_free_data['bNode'][0]['position']
+    except:
+        position_info = no_free_data['tNode'][0]
     start_point = gps_point(float(position_info['latitude']), float(position_info['longitude']))
 
     # pass_by_ps : List[gps_point]
