@@ -17,13 +17,16 @@ def no_free_run(userid: str, ses, extra_pn=1,school = "",rg=(2, 4),debug=False):
     red, green = rg
 
     school_location = get_school_location(school)
-
+    if debug:
+        print('school:'+str(school)+' '+'location:'+str(school_location))
     possible_bNode = [item for item in resj['ibeacon'] if haversine(item['position'],school_location)['km'] < 10]
     possible_tNode = [item for item in resj['gpsinfo'] if haversine(item,school_location)['km'] < 10]
 
     no_free_data['bNode'] = possible_bNode[:red]
     no_free_data['tNode'] = possible_tNode[:green]
-
+    if debug:
+        print('bNode to use:' + str(no_free_data['bNode']['position']))
+        print('tNode to use:' + str(no_free_data['tNode']))
     try:
         position_info = no_free_data['bNode'][0]['position']
     except:
