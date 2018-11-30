@@ -8,7 +8,7 @@ from mysports.sports import *
 from path_plan.plan import path_plan, get_school_location
 
 
-def no_free_run(userid: str, ses, extra_pn=1,school = "",rg=(2, 4),debug=False):
+def no_free_run(userid: str, ses, extra_pn=1, school="", rg=(2, 4), debug=False):
     data = json.dumps({"initLocation": "121.85284044053819,30.911461588541666", "type": "1", "userid": userid})
     res = ses.get(host + '/api/run/runPage', params={'sign': get_md5_code(data), 'data': data.encode('ascii')})
     resj = res.json()['data']
@@ -18,9 +18,9 @@ def no_free_run(userid: str, ses, extra_pn=1,school = "",rg=(2, 4),debug=False):
 
     school_location = get_school_location(school)
     if debug:
-        print('school:'+str(school)+' '+'location:'+str(school_location))
-    possible_bNode = [item for item in resj['ibeacon'] if haversine(item['position'],school_location)['km'] < 10]
-    possible_tNode = [item for item in resj['gpsinfo'] if haversine(item,school_location)['km'] < 10]
+        print('school:' + str(school) + ' ' + 'location:' + str(school_location))
+    possible_bNode = [item for item in resj['ibeacon'] if haversine(item['position'], school_location)['km'] < 10]
+    possible_tNode = [item for item in resj['gpsinfo'] if haversine(item, school_location)['km'] < 10]
 
     no_free_data['bNode'] = possible_bNode[:red]
     no_free_data['tNode'] = possible_tNode[:green]
@@ -34,7 +34,7 @@ def no_free_run(userid: str, ses, extra_pn=1,school = "",rg=(2, 4),debug=False):
     start_point = gps_point(float(position_info['latitude']), float(position_info['longitude']))
 
     # pass_by_ps : List[gps_point]
-    pass_by_ps = gps_point_list([start_point.zouzou(strip=0.003) for x in range(extra_pn)])
+    pass_by_ps = gps_point_list([start_point.zouzou(strip=0.003) for _ in range(extra_pn)])
 
     # reformat bnode, tnode ;  collect passby points
     for node in no_free_data['bNode']:

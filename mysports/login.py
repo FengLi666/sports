@@ -21,6 +21,8 @@ def login(mobile, psd):
         {"info": headers['uuid'], "mobile": str(mobile), "password": str(psd), "type": "HUAWEIMLA-AL10"})
 
     login_res = s.get(host + '/api/reg/login', params={'sign': get_md5_code(login_data), 'data': login_data})
+    # todo catch login failed
+
     login_rd = login_res.json()
 
     try:

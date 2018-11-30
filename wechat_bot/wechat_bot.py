@@ -2,6 +2,7 @@ import gevent
 from gevent import monkey
 
 monkey.patch_all()
+# noinspection PyPep8
 from logging import Logger
 from wxpy import *
 from traceback import print_exc
